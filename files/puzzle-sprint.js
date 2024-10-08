@@ -139,7 +139,7 @@ var PuzzleSprint = {
 
     if (this.correct) {
       if (storage.get('danetka-sound') === null || storage.get('danetka-sound') == 1) {
-        audio.playSound(window['STATIC_HOME'] + '/yes.mp3');
+        audio.playSound('./media/yes.mp3');
       }
 	  
 	  this.score = this.score >= 0 && this.score < 10 ? this.score + 1 : 1;
@@ -157,7 +157,7 @@ var PuzzleSprint = {
       this.benefit.correct();
     } else {
       if (storage.get('danetka-sound') === null || storage.get('danetka-sound') == 1) {
-        audio.playSound(window['STATIC_HOME'] + '/no.mp3');
+        audio.playSound('./media/no.mp3');
       }
       this.score = this.score > 0 ? -1 : this.score - 1;
       this.level = 0;
@@ -252,57 +252,30 @@ var PuzzleSprint = {
       return;
     }
 
-    //копируем объект, чтобы узнать предыдущее слово
+    //Randomly select a word. копируем объект, чтобы узнать предыдущее слово
     var lastWord = Object.assign({}, this.word);
 
-    for (var i = 0; i < this.words[this.level].length; i++) {
-      if (this.words[this.level][i].shown) continue;
+    for (var i = Math.floor(Math.random() * puzzle_sprint_words[this.level].length); i < this.words[this.level].length; i++) {
+      
 
       this.word = this.words[this.level][i];
       this.word_ind = i;
       break;
+	  
     }
-
+	
+    var randomIndex = Math.floor(Math.random() * puzzle_sprint_words[this.level].length);
     var word = this.word.word;
     //если предыдущее слово такое же, как и новое, то показываем загрузку страницы и отключаем кнопки действия
     if(
-       Object.keys(lastWord).length > 0 //обязательно уже было слово до этого
+      Object.keys(lastWord).length > 0 //обязательно уже было слово до этого
       && lastWord.word == this.word.word
       && this.word.visible_translation == lastWord.visible_translation
     ) {
-		///////////////////////////////////////////////////////
-
-	  var spanElement = document.getElementById('buttons');
-	  var spanElement2 = document.getElementById('buttons2');
-      var number1 = parseInt(document.getElementById('total-num').innerText);
-      var number2 = parseInt(document.getElementById('total-num2').innerText);
-      var targetDiv1 = document.getElementById('finish_picture_1');
-	  var targetDiv2 = document.getElementById('finish_picture_2');
-      var imageElement1 = document.createElement('img');
-	  var imageElement2 = document.createElement('img');
-	  var imageElement3 = document.createElement('img');
-	  imageElement1.src = '../media/victory.gif';
-	  imageElement2.src = '../media/defeat.gif';
-	  imageElement3.src = '../media/draw.gif';
-      imageElement2.width = 300; imageElement2.height = 130; 
-      imageElement3.width = 300; imageElement3.height = 130;	
-
-	  spanElement.parentNode.removeChild(spanElement);
-	  spanElement2.parentNode.removeChild(spanElement2);
-      PuzzleSprint.select_disabled = true;  
-	  PuzzleSprint2.select_disabled = true;  
-     if (number1 > number2) {
-	  targetDiv1.appendChild(imageElement1);
-	  targetDiv2.appendChild(imageElement2);}
-     if (number1 < number2) {  
-	  targetDiv1.appendChild(imageElement2);
-	  targetDiv2.appendChild(imageElement1);}		  
-	  if (number1 === number2) {
-	  targetDiv1.appendChild(imageElement3);
-	  targetDiv2.appendChild(imageElement3);}
-	  
-	///////////////////////////////////////////////////////
-
+		
+	 this.nextWord(true);
+      return false;
+	
     }
     //если уже идет запрос на сервер, но он долгий, то ничего не делаем
     else if(this.timeOutEndByLoading) {
@@ -761,6 +734,7 @@ var PuzzleSprint2 = {
 	this.box.$translation3 = $('.puzzle-sprint2__word_translation3 > span');
     this.$progress_bar = $('.b-progressbar_wrap2');
 
+   
     this.words = window.puzzle_sprint_words2 || [];
     this.max_index = this.words.length - 1;
 
@@ -823,7 +797,7 @@ var PuzzleSprint2 = {
 
     if (this.correct) {
       if (storage.get('danetka-sound') === null || storage.get('danetka-sound') == 1) {
-        audio.playSound(window['STATIC_HOME'] + '/yes.mp3');
+        audio.playSound('./media/yes.mp3');
       }
       this.score = this.score >= 0 && this.score < 10 ? this.score + 1 : 1;
 
@@ -839,7 +813,7 @@ var PuzzleSprint2 = {
       this.benefit.correct();
     } else {
       if (storage.get('danetka-sound') === null || storage.get('danetka-sound') == 1) {
-        audio.playSound(window['STATIC_HOME'] + '/no.mp3');
+        audio.playSound('./media/no.mp3');
       }
       this.score = this.score > 0 ? -1 : this.score - 1;
       this.level = 0;
@@ -933,17 +907,19 @@ var PuzzleSprint2 = {
       return;
     }
 
-    //копируем объект, чтобы узнать предыдущее слово
+    //Randomly select a word. копируем объект, чтобы узнать предыдущее слово
     var lastWord = Object.assign({}, this.word);
 
-    for (var i = 0; i < this.words[this.level].length; i++) {
-      if (this.words[this.level][i].shown) continue;
+    for (var i = Math.floor(Math.random() * puzzle_sprint_words2[this.level].length); i < this.words[this.level].length; i++) {
+      
 
       this.word = this.words[this.level][i];
       this.word_ind = i;
       break;
+	  
     }
-
+	
+    var randomIndex = Math.floor(Math.random() * puzzle_sprint_words[this.level].length);
     var word = this.word.word;
     //если предыдущее слово такое же, как и новое, то показываем загрузку страницы и отключаем кнопки действия
     if(
@@ -953,40 +929,9 @@ var PuzzleSprint2 = {
       && this.word.visible_translation == lastWord.visible_translation
     ) {
      
-	 ///////////////////////////////////////////////////////
-      
-	  
-	  var spanElement = document.getElementById('buttons');
-	  var spanElement2 = document.getElementById('buttons2');
-      var number1 = parseInt(document.getElementById('total-num').innerText);
-      var number2 = parseInt(document.getElementById('total-num2').innerText);
-      var targetDiv1 = document.getElementById('finish_picture_1');
-	  var targetDiv2 = document.getElementById('finish_picture_2');
-      var imageElement1 = document.createElement('img');
-	  var imageElement2 = document.createElement('img');
-	  var imageElement3 = document.createElement('img');
-	  imageElement1.src = '../media/victory.gif';
-	  imageElement2.src = '../media/defeat.gif';
-	  imageElement3.src = '../media/draw.gif';
-      imageElement2.width = 300; imageElement2.height = 130; 
-      imageElement3.width = 300; imageElement3.height = 130;
-	  
-	  spanElement.parentNode.removeChild(spanElement);
-	  spanElement2.parentNode.removeChild(spanElement2);
-      PuzzleSprint.select_disabled = true;  
-	  PuzzleSprint2.select_disabled = true;  
-     if (number1 > number2) {
-	  targetDiv1.appendChild(imageElement1);
-	  targetDiv2.appendChild(imageElement2);}
-     if (number1 < number2) {  
-	  targetDiv1.appendChild(imageElement2);
-	  targetDiv2.appendChild(imageElement1);}		  
-	  if (number1 === number2) {
-	  targetDiv1.appendChild(imageElement2);
-	  targetDiv2.appendChild(imageElement3);}
-	  
-	///////////////////////////////////////////////////////
-	
+	 this.nextWord(true);
+      return false;
+
     }
     //если уже идет запрос на сервер, но он долгий, то ничего не делаем
     else if(this.timeOutEndByLoading) {
@@ -1375,6 +1320,13 @@ var PuzzleSprint2 = {
 };
 
 
+
+///////////////////////////
+//////////////////////////////
+/////////////////////////////
+
+
+
 /**
  * Загружаем рейтинг
  * @param period
@@ -1559,18 +1511,13 @@ $body.on('click', '.j-puzzle_sprint2_btn', function() {
 
 
 function doInitForForeignUser() {
-  if (!user.logged_in || !window.danetka_allowed || ['ru', 'en'].indexOf(site_language) !== -1)
-    return false;
-
+  
   PuzzleSprint.init(true);
   PuzzleSprint2.init(true);
 }
 
 function sprint_startGame() {
-  if (!user.logged_in) {
-    show_sign_popup();
-    return;
-  }
+  
   if (!window.danetka_allowed) {
     location.href = '/no-credits?from=danetka';
     return;
