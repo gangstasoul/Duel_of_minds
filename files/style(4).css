@@ -1101,6 +1101,7 @@
 
     .b-progressbar {
         margin-top: 50px;
+		text-align:center;
     }
 
     .b-sprint__wrapper {
